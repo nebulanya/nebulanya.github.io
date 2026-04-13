@@ -4,25 +4,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Processing...</title>
 </head>
-<body style="text-align:center; padding-top:50px;">
+<body>
 
-  <p>Processing...</p>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  params.append("t", Date.now());
 
-  <script>
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbxkgPRubvwD6wcOOw5Bk5WDSHTmtjbNG5ClzFETmhCyxXCPyGkYs1NLiOpfYpck0fU6OA/exec";
-    const params = new URLSearchParams(window.location.search);
+  const url = "https://script.google.com/macros/s/AKfycbxkgPRubvwD6wcOOw5Bk5WDSHTmtjbNG5ClzFETmhCyxXCPyGkYs1NLiOpfYpck0fU6OA/exec" + params.toString();
 
-    // kirim ke Apps Script
-    fetch(scriptUrl + "?" + params.toString(), {
-      method: "GET",
-      mode: "no-cors"
-    });
+  const iframe = document.createElement("iframe");
+  iframe.style.display = "none";
+  iframe.src = url;
+  document.body.appendChild(iframe);
 
-    // close window
-    setTimeout(() => {
-      window.close();
-    }, 1000);
-  </script>
+  setTimeout(() => {
+    window.close();
+  }, 800);
+</script>
 
 </body>
 </html>
