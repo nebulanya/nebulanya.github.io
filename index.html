@@ -62,7 +62,7 @@
       
     </script>
 
-   <script>
+  <script>
   const params = new URLSearchParams(window.location.search);
   const invoice = params.get("invoice");
   const receipt = params.get("receipt");
@@ -77,7 +77,14 @@
 
     if (url.includes(".pdf")) {
       container.innerHTML = `
-        <iframe src="https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(url)}"></iframe>
+        <div style="padding:20px; text-align:center;">
+          <p>Preview tidak tersedia</p>
+          <a href="${url}" target="_blank">
+            <button style="padding:10px 20px; font-size:16px;">
+              Buka / Download PDF
+            </button>
+          </a>
+        </div>
       `;
     } else {
       container.innerHTML = `<img src="${url}" />`;
