@@ -10,7 +10,7 @@
   const params = new URLSearchParams(window.location.search);
   params.append("t", Date.now());
 
-  const url = "https://script.google.com/macros/s/AKfycbxkgPRubvwD6wcOOw5Bk5WDSHTmtjbNG5ClzFETmhCyxXCPyGkYs1NLiOpfYpck0fU6OA/exec" + params.toString();
+  const url = "https://script.google.com/macros/s/AKfycbxkgPRubvwD6wcOOw5Bk5WDSHTmtjbNG5ClzFETmhCyxXCPyGkYs1NLiOpfYpck0fU6OA/exec?" + params.toString();
 
   const iframe = document.createElement("iframe");
   iframe.style.display = "none";
