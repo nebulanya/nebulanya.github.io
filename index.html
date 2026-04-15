@@ -54,6 +54,13 @@
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
       appId: "c44d8767-7b06-4d32-87b0-5ec88947f33e",
+      promptOptions: {
+        slidedown: {
+          enabled: true,
+          autoPrompt: true,
+          timeDelay: 2
+        }
+      }
     });
   });
 </script>
