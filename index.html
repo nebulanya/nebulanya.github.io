@@ -3,6 +3,19 @@
   <title>Order Reported</title>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <script 
+      src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer>
+    </script>
+    
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "c44d8767-7b06-4d32-87b0-5ec88947f33e",
+    });
+  });
+</script>
+    
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -44,18 +57,7 @@
     <button onclick="window.location.href='https://warehousemanagement.glide.page'">Open App</button>
 
     </container>
-    <script 
-      src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer>
-    </script>
-    
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "c44d8767-7b06-4d32-87b0-5ec88947f33e",
-    });
-  });
-</script>
+   
 
 
 </body>
