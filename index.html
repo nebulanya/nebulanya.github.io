@@ -340,25 +340,32 @@ section {
 }
 
 .project-detail-page{
-  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+  overflow-y:auto;
   padding:110px 8%;
-  min-height:100vh;
-  animation:fadeInPage 0.6s ease;
+  background:#060816;
+  z-index:997;
+
+  transform:translateX(100%);
+  opacity:0;
+  visibility:hidden;
+  transition:transform 0.6s cubic-bezier(0.22,1,0.36,1),
+             opacity 0.6s ease;
 }
 
 .project-detail-page.show{
-  display:block;
+  transform:translateX(0);
+  opacity:1;
+  visibility:visible;
 }
 
-@keyframes fadeInPage{
-  from{
-    opacity:0;
-    transform:translateY(30px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+.project-detail-page.hide{
+  transform:translateX(100%);
+  opacity:0;
 }
 
 .project-detail-container{
@@ -616,7 +623,7 @@ nav.show-menu a{
      <div class="shots">
   <img src="assets/warehousecover.png" alt="Warehouse Management System">
 </div>
-      <p style="text-align: justify;">
+      <p style="text-align: justify; font-size: 15px;">
   A comprehensive business management application featuring real-time inventory tracking with inbound and outbound history, integrated paid and unpaid customer order monitoring, automatic stock deduction from orders, monthly and yearly income analytics dashboards, and push notifications for paid orders.
 </p>
     </div>
@@ -626,7 +633,7 @@ nav.show-menu a{
       <div class="shots">
   <img src="assets/projectmanagement.png" alt="Smart Project Documentation System">
 </div>
-       <p style="text-align: justify;">
+       <p style="text-align: justify; font-size: 15px;">
   A streamlined document automation system featuring instant PDF quotation creation, automatic invoice generation with signature support, a unique smart file naming system, rapid contract agreement generation, and a fully mobile-accessible workflow.
 </p>
     </div>
@@ -636,7 +643,7 @@ nav.show-menu a{
       <div class="shots">
   <img src="assets/companymanagement.png" alt="Internal Company Data Management">
 </div>
-      <p style="text-align: justify;">
+      <p style="text-align: justify; font-size: 15px;">
   A secure internal data management system featuring private company record storage, income and expense financial history tracking, monthly performance monitoring, yearly business reporting dashboards, and a controlled user access environment.
 </p>
     </div>
@@ -657,19 +664,24 @@ nav.show-menu a{
   <div id="monthly" class="pricing active-price">
     <div class="price-card">
       <h3>Basic</h3>
+      <p>Ideal for small businesses</p>
       <h2>1,500,000 IDR / month</h2>
       <p>Up to 10 Users</p>
       <p>Maintenance Included</p>
+      <p>Free consultation</p>
     </div>
     <div class="price-card">
-      <h3>Pro</h3>
+      <h3>Pro (Recommended)</h3>
+      <p>Best for growing businesses</p>
       <h2>2,700,000 IDR / month</h2>
       <p>Up to 20 Users</p>
       <p>Maintenance Included</p>
       <p>Features Update</p>
+      <p>Priority Support</p>
     </div>
     <div class="price-card">
       <h3>Enterprise</h3>
+      <p>Tailored for large companies</p>
       <h2>5,000,000 IDR / month</h2>
       <p>Up to 50 Users</p>
       <p>Maintenance Included</p>
@@ -681,19 +693,24 @@ nav.show-menu a{
   <div id="yearly" class="pricing">
     <div class="price-card">
       <h3>Basic</h3>
+      <p>Ideal for small businesses</p>
       <h2>16,200,000 IDR / year</h2>
       <p>Up to 10 Users</p>
       <p>Maintenance Included</p>
+      <p>Free consultation</p>
     </div>
     <div class="price-card">
-      <h3>Pro</h3>
+      <h3>Pro (Recommended)</h3>
+      <p>Best for growing businesses</p>
       <h2>29,160,000 IDR / year</h2>
       <p>Up to 20 Users</p>
       <p>Maintenance Included</p>
       <p>Features Update</p>
+      <p>Priority Support</p>
     </div>
     <div class="price-card">
       <h3>Enterprise</h3>
+      <p>Tailored for large companies</p>
       <h2>54,000,000 IDR / year</h2>
       <p>Up to 50 Users</p>
       <p>Maintenance Included</p>
@@ -832,6 +849,10 @@ function openProject(type){
   const detailPage = document.getElementById('project-detail');
   const content = document.getElementById('projectDetailContent');
   const breadcrumb = document.getElementById('breadcrumbTitle');
+
+   // Simpan posisi scroll saat card diklik
+  window.lastScrollPosition = window.scrollY;
+
 
   let html = '';
 
@@ -979,24 +1000,50 @@ function openProject(type){
     section.style.display = 'none';
   });
 
+  detailPage.classList.remove('hide');
   detailPage.classList.add('show');
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
+  detailPage.scrollTo(0, 0);
 }
 
-function closeProject(){
-  document.getElementById('project-detail').classList.remove('show');
+function closeProject() {
+  const detailPage = document.getElementById('project-detail');
 
-  document.querySelectorAll('body > section:not(#project-detail)').forEach(section=>{
-    section.style.display = '';
-  });
+  // Jalankan animasi slide keluar ke kanan
+  detailPage.classList.add('hide');
+  detailPage.classList.remove('show');
 
-  document.getElementById('projects').scrollIntoView({
-    behavior: 'smooth'
-  });
+  setTimeout(() => {
+    // Tampilkan kembali semua section utama
+    document.querySelectorAll('body > section:not(#project-detail)').forEach(section => {
+      section.style.display = '';
+    });
+
+    // Reset state overlay
+    detailPage.classList.remove('hide');
+
+    // Nonaktifkan smooth scroll global sementara
+    const html = document.documentElement;
+    const previousBehavior = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+
+    // Kembalikan ke posisi scroll sebelumnya tanpa animasi
+    window.scrollTo({
+      top: window.lastScrollPosition || 0,
+      left: 0,
+      behavior: 'auto'
+    });
+
+    // Bersihkan hash URL agar browser tidak melakukan scroll ke #projects lagi
+    if (history.replaceState) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+
+    // Aktifkan kembali smooth scroll setelah posisi sudah benar-benar dipulihkan
+    setTimeout(() => {
+      html.style.scrollBehavior = previousBehavior || '';
+    }, 50);
+
+  }, 100); // harus sama dengan durasi transition CSS
 }
 
 function showLightbox(src){
@@ -1039,7 +1086,6 @@ document.querySelectorAll('#mobileNav a').forEach(link=>{
   });
 });
 </script>
-
 
 </body>
 </html>
