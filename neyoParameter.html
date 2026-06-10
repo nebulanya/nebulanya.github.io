@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Processing...</title>
+</head>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #adadad;
+  }
+
+  p {
+    font-size: 24px;
+    color: #ffffff;
+  }
+
+  container {
+
+    margin-top: 10%;
+    display: inline-block;
+    padding: 50px 60px;
+    background-color: #1b263c;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+  }
+</style>
+
+<body style="text-align:center; padding-top:50px;">
+
+  <container>
+    <p>Processing...</p>
+  </container>
+
+  <script>
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzfzCi5VbfgQCwv1QHW1pSqBPMlb6SMC8Du1sJD-pNyRsFPfNHo_k-mmMe4la3Kvrkg/exec";
+    const params = new URLSearchParams(window.location.search);
+
+    // kirim ke Apps Script
+    fetch(scriptUrl + "?" + params.toString(), {
+      method: "GET",
+      mode: "no-cors"
+    });
+
+    // close window
+    setTimeout(() => {
+      window.close();
+    }, 800);
+  </script>
+
+</body>
+</html>
